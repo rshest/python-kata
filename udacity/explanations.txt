@@ -1,0 +1,16 @@
+###########################################################
+# QUESTION 1
+###########################################################
+
+The algorithm works in a guaranteed linear time, O(N + M), where N is length of the first string and M is the length of the second.
+
+It maintains a "repository" of available characters, which is initialized with all the characters from the second string.
+
+There are two pointers that can only move left to right: current character and current anagram candidate start position.
+
+Once current character can not be matched to an available place in the repository, the anagram start gets advanced.
+
+Since we know that this is an ASCII string, the "repository" data structure is just a static array of 255 character counts (but it could be a dictionary as well).
+This makes for a O(1) memory usage.
+
+
