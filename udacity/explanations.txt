@@ -13,4 +13,20 @@ Once current character can not be matched to an available place in the repositor
 Since we know that this is an ASCII string, the "repository" data structure is just a static array of 255 character counts (but it could be a dictionary as well).
 This makes for a O(1) memory usage.
 
+###########################################################
+# QUESTION 2
+###########################################################
+
+Computational complexity is quadratic, O(N^2), I am using a simple algorithm here:
+ - for which position inside the string find longest palindrome with the middle at that location. 
+   At every location it's done for both odd and even palindrome character counts
+ - the maximum of those is taken and the substring is extracted.
+
+ Memory complexity is O(1).
+
+ I am pretty sure it could have been done with a lower complexity, but no simple solution came to mind, so I left it at that.
+
+###########################################################
+# QUESTION 3
+###########################################################
 
