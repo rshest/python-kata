@@ -30,3 +30,18 @@ Computational complexity is quadratic, O(N^2), I am using a simple algorithm her
 # QUESTION 3
 ###########################################################
 
+###########################################################
+# QUESTION 4
+###########################################################
+
+###########################################################
+# QUESTION 5
+###########################################################
+
+This one has a linear complexity, O(N) in both computation and memory.
+
+It may be possible to do it faster, but intuitively it can't be much better than that 
+(getting an element by index in a linked list is already of linear complexity).
+
+I am using an explicit stack data structure (as opposed to writing a fancy recursive function),
+because running that on big lists could just blow up the stack.

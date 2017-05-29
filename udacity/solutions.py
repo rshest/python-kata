@@ -127,8 +127,25 @@ class Node(object):
 
 
 def question5(ll, m):
-    return Node()
+    return Node(0)
 
+
+# QUESTION 5 TESTS
+class Test5(unittest.TestCase):
+    def test(self):
+        def make_list(n):
+            head = Node(1)
+            p = head
+            for i in xrange(2, n):
+                node = Node(i)
+                p.next = node
+                p = node
+            return head     
+
+        self.assertEquals(question5(make_list(5), 3).data, 3)
+        self.assertEquals(question5(make_list(1), 3).data, None)
+        self.assertEquals(question5(make_list(1), 1).data, 1)
+        
 
 
 if __name__ == '__main__':
