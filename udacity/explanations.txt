@@ -38,10 +38,9 @@ Computational complexity is quadratic, O(N^2), I am using a simple algorithm her
 # QUESTION 5
 ###########################################################
 
-This one has a linear complexity, O(N) in both computation and memory.
+This one has a linear complexity, O(N) in computation and O(M) in memory 
+(where N is the length of list and M is the element index to find from the end).
 
-It may be possible to do it faster, but intuitively it can't be much better than that 
-(getting an element by index in a linked list is already of linear complexity).
 
-I am using an explicit stack data structure (as opposed to writing a fancy recursive function),
-because running that on big lists could just blow up the stack.
+I am using an explicit deque data structure, as opposed to possibly writing a fancy recursive function,
+because running the latter with big M could just blow up the stack.

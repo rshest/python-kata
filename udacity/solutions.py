@@ -125,9 +125,17 @@ class Node(object):
     self.data = data
     self.next = None
 
+from collections import deque
 
 def question5(ll, m):
-    return Node(0)
+    d = deque()
+    node = ll
+    while node is not None:
+        if len(d) >= m:
+            d.popleft()
+        d.append(node)
+        node = node.next
+    return d.popleft() if len(d) == m else None
 
 
 # QUESTION 5 TESTS
@@ -136,16 +144,16 @@ class Test5(unittest.TestCase):
         def make_list(n):
             head = Node(1)
             p = head
-            for i in xrange(2, n):
+            for i in xrange(2, n + 1):
                 node = Node(i)
                 p.next = node
                 p = node
             return head     
 
         self.assertEquals(question5(make_list(5), 3).data, 3)
-        self.assertEquals(question5(make_list(1), 3).data, None)
+        self.assertEquals(question5(make_list(1), 3), None)
         self.assertEquals(question5(make_list(1), 1).data, 1)
-        
+        self.assertEquals(question5(None, 10), None)
 
 
 if __name__ == '__main__':
