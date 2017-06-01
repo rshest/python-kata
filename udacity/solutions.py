@@ -114,7 +114,33 @@ def question3(G):
 # QUESTION 4
 ###########################################################
 def question4(T, r, n1, n2):
-    return 0
+    def get_parent(n):
+        if n >= len(T):
+            return None
+        parents = [i for i, row in enumerate(T) if row[n] == 1]
+        if len(parents) == 0:
+            return None
+        return parents[0]
+        
+    # first collect the nodes along the path from the first node to the root
+    path = set([n1])
+    node = n1
+    while node != r:
+        node = get_parent(node)
+        if node is None:
+            return None
+        path.add(node)
+
+    # go up from the second node until meet a node from collected path
+    node = n2
+    while True:
+        if node in path:
+            return node
+        if node == r or node is None:
+            break
+        node = get_parent(node)
+
+    return None
 
 
 # QUESTION 4 TESTS
@@ -136,7 +162,7 @@ class Test4(unittest.TestCase):
              [1, 0, 0, 0, 1],
              [0, 0, 1, 0, 0],
              [0, 0, 0, 0, 0]], 3, 0, 5), None)
-                     
+
         #    3
         #   2
         #  0 4
