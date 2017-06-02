@@ -126,20 +126,40 @@ class Test3(unittest.TestCase):
         G = {'A': [('B', 2)],
              'B': [('A', 2), ('C', 5)], 
              'C': [('B', 5)]}
-
-        S = question3(G)
-        self.assertEquals(count_weight(S), 7)
-        self.assertEquals(count_edges(S), 2)
-    
+        self.assertEquals(question3(G), G)
+        
     def test_cc(self):
-        G = {'A': [('B', 2)]}
+        G = {'A': [('B', 2)], 'B': [('A', 2)]}
         self.assertEquals(question3(G), G) 
         self.assertEquals(question3({}), {}) 
 
     def test_cc_disj(self):
-        G = {'A': [('B', 2)], 'C': [('D', 2)]}
+        G = {'A': [('B', 2)], 'B': [('A', 2)], 
+             'C': [('D', 2)], 'D': [('C', 2)]}
         self.assertEquals(question3(G), G) 
+
+    def test_1(self):
+        G = {'A': [('B', 2), ('C', 2)], 
+             'B': [('A', 2), ('C', 3)], 
+             'C': [('A', 2), ('B', 3)]}
+        S = {'A': [('B', 2), ('C', 2)], 
+             'B': [('A', 2)], 
+             'C': [('A', 2)]}     
+        self.assertEquals(question3(G), S) 
         
+
+    def test_2(self):
+        G = {'A': [('B', 1), ('C', 7)], 
+             'B': [('A', 1), ('C', 5), ('D', 4), ('E', 3)], 
+             'C': [('A', 7), ('B', 5), ('E', 6)],
+             'D': [('B', 4), ('E', 2)], 
+             'E': [('B', 3), ('C', 6), ('D', 2)]}
+        S = {'A': [('B', 1)], 
+             'B': [('A', 1), ('C', 5), ('E', 3)], 
+             'C': [('B', 5)],
+             'D': [('E', 2)], 
+             'E': [('B', 3), ('D', 2)]} 
+        self.assertEquals(question3(G), S)     
 ###########################################################
 # QUESTION 4
 ###########################################################
