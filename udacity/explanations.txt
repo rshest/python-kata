@@ -34,6 +34,24 @@ Computational complexity is quadratic, O(N^2), I am using a simple algorithm her
 # QUESTION 4
 ###########################################################
 
+The algorithm first traverses path to the root from the first node, remembering all the nodes on the way in a set.
+Then, it traverses the path to the root from the second node, looking for the first node to be in the set above.
+
+Computatinal complexity is O(N^2), where N is the number of nodes in the graph.
+This is due to the unfortunate way the graph representation is stored - we need a linear time to 
+find the parent's index of each node.
+
+Because of that the set lookup on the second pass is kind of inessential 
+(it's normally constant, since the set is implemented as hash table, but even if it was a linear lookup - 
+it would not make the computational complexity worse).
+
+
+Memory complexity is O(N), since we allocate an extra set to store the nodes from the path on the 
+
+Of course, this could be mitigated by building a helper array that would store parent indices for every node directly
+(at the cost of extra O(N) memory and remembering it). 
+That would make a lot of sense if this function is called many times on the same graph.
+
 ###########################################################
 # QUESTION 5
 ###########################################################
