@@ -30,6 +30,15 @@ Computational complexity is quadratic, O(N^2), I am using a simple algorithm her
 # QUESTION 3
 ###########################################################
 
+The problem statement was (intentionally?..) somewhat ambiguous.
+
+Are we required to include each edge twice, in both directions (and does the input necessarily do that)?
+Can the input graph be disjoint?
+
+I am assuming that it's "yes" in all cases and use Kruskal's algorithm. 
+It has complexity of O(E*logE), where E is the number of edges. 
+
+
 ###########################################################
 # QUESTION 4
 ###########################################################
