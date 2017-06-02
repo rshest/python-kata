@@ -110,6 +110,36 @@ def question3(G):
     return {}
 
 
+def count_edges(G):
+    """Given a graph G, represented as a dictionary, counts total number of edges"""
+    return sum(map(len, G.values()))
+
+def count_weight(G):
+    """Given a graph G, represented as a dictionary, counts total weight of edges"""
+    def sum_weights(edges):
+        return sum(map(lambda (_, w): w, edges))
+    return sum(map(sum_weights, G.values()))
+
+# QUESTION 3 TESTS
+class Test3(unittest.TestCase):
+    def test_base(self):
+        G = {'A': [('B', 2)],
+             'B': [('A', 2), ('C', 5)], 
+             'C': [('B', 5)]}
+
+        S = question3(G)
+        self.assertEquals(count_weight(S), 7)
+        self.assertEquals(count_edges(S), 2)
+    
+    def test_cc(self):
+        G = {'A': [('B', 2)]}
+        self.assertEquals(question3(G), G) 
+        self.assertEquals(question3({}), {}) 
+
+    def test_cc_disj(self):
+        G = {'A': [('B', 2)], 'C': [('D', 2)]}
+        self.assertEquals(question3(G), G) 
+        
 ###########################################################
 # QUESTION 4
 ###########################################################
@@ -117,7 +147,8 @@ def question4(T, r, n1, n2):
     def get_parent(n):
         if n >= len(T):
             return None
-        parents = [i for i, row in enumerate(T) if row[n] == 1]
+        parents = [i for i, row in enumerate(T) 
+                     if row[n] == 1]
         if len(parents) == 0:
             return None
         return parents[0]
