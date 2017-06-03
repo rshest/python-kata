@@ -107,18 +107,50 @@ class Test2(unittest.TestCase):
 # QUESTION 3
 ###########################################################
 def question3(G):
-    return {}
+    # We are using Kruskal's algorithm to find the minimum spanning tree
+    
+    # order edges by weight
+    edges = [(v1, v2, w) for v1, out_edges in G.iteritems() 
+                         for v2, w in out_edges]
+    edges.sort(key=lambda (v1, v2, w): w)
+    
+    # initial disjoint sets - each vertex in its own
+    ds_index = range(len(G))
+    vert_index = dict((v, i) for i, v in enumerate(G))
+
+    def get_roots(v1, v2):
+        idx1 = vert_index[v1]
+        idx2 = vert_index[v2]
+        while idx1 != ds_index[idx1]:
+            idx1 = ds_index[idx1]
+        while idx2 != ds_index[idx2]:
+            idx2 = ds_index[idx2]
+        return idx1, idx2
+
+    # add edges, from lowest weight, joining the sets
+    res_edges = []
+    for edge in edges:
+        v1, v2, _ = edge
+        root1, root2 = get_roots(v1, v2)
+        if root1 != root2:
+            res_edges.append(edge)
+            # "merge" the two disjoint sets
+            ds_index[root1] = root2
+        
+    # convert to the output graph format
+    res = dict((v, []) for v in G)
+    for v1, v2, w in res_edges:
+        res[v1].append((v2, w))
+        res[v2].append((v1, w))
+
+    return res
 
 
-def count_edges(G):
-    """Given a graph G, represented as a dictionary, counts total number of edges"""
-    return sum(map(len, G.values()))
-
-def count_weight(G):
-    """Given a graph G, represented as a dictionary, counts total weight of edges"""
-    def sum_weights(edges):
-        return sum(map(lambda (_, w): w, edges))
-    return sum(map(sum_weights, G.values()))
+def order_graph(G):
+    """Given a graph G, represented as a dictionary, orders edges by label name"""
+    for _, edges in G.iteritems():
+        edges.sort(key=lambda (v, w): v)
+    return G
 
 # QUESTION 3 TESTS
 class Test3(unittest.TestCase):
@@ -130,13 +162,13 @@ class Test3(unittest.TestCase):
         
     def test_cc(self):
         G = {'A': [('B', 2)], 'B': [('A', 2)]}
-        self.assertEquals(question3(G), G) 
+        self.assertEquals(order_graph(question3(G)), G) 
         self.assertEquals(question3({}), {}) 
 
     def test_cc_disj(self):
         G = {'A': [('B', 2)], 'B': [('A', 2)], 
              'C': [('D', 2)], 'D': [('C', 2)]}
-        self.assertEquals(question3(G), G) 
+        self.assertEquals(order_graph(question3(G)), G) 
 
     def test_1(self):
         G = {'A': [('B', 2), ('C', 2)], 
@@ -145,7 +177,7 @@ class Test3(unittest.TestCase):
         S = {'A': [('B', 2), ('C', 2)], 
              'B': [('A', 2)], 
              'C': [('A', 2)]}     
-        self.assertEquals(question3(G), S) 
+        self.assertEquals(order_graph(question3(G)), S) 
         
 
     def test_2(self):
@@ -159,7 +191,8 @@ class Test3(unittest.TestCase):
              'C': [('B', 5)],
              'D': [('E', 2)], 
              'E': [('B', 3), ('D', 2)]} 
-        self.assertEquals(question3(G), S)     
+        self.assertEquals(order_graph(question3(G)), S)   
+
 ###########################################################
 # QUESTION 4
 ###########################################################
