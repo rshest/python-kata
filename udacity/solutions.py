@@ -108,7 +108,7 @@ class Test2(unittest.TestCase):
 ###########################################################
 def question3(G):
     # We are using Kruskal's algorithm to find the minimum spanning tree
-    
+
     # order edges by weight
     edges = [(v1, v2, w) for v1, out_edges in G.iteritems() 
                          for v2, w in out_edges]
@@ -294,17 +294,22 @@ class Node(object):
     self.data = data
     self.next = None
 
-from collections import deque
+def get_list_length(node):
+    res = 0
+    while node is not None:
+        node = node.next
+        res += 1
+    return res
 
 def question5(ll, m):
-    d = deque()
+    n = get_list_length(ll)
+    if m < 1 or m > n:
+        return None
+    
     node = ll
-    while node is not None:
-        if len(d) >= m:
-            d.popleft()
-        d.append(node)
+    for k in xrange(n - m):
         node = node.next
-    return d.popleft() if len(d) == m else None
+    return node
 
 
 # QUESTION 5 TESTS
@@ -320,6 +325,10 @@ class Test5(unittest.TestCase):
             return head     
 
         self.assertEquals(question5(make_list(5), 3).data, 3)
+        self.assertEquals(question5(make_list(5), 5).data, 1)
+        self.assertEquals(question5(make_list(5), 6), None)
+        self.assertEquals(question5(make_list(5), 0), None)
+        self.assertEquals(question5(make_list(5), 1).data, 5)
         self.assertEquals(question5(make_list(1), 3), None)
         self.assertEquals(question5(make_list(1), 1).data, 1)
         self.assertEquals(question5(None, 10), None)
