@@ -65,9 +65,12 @@ That would make a lot of sense if this function is called many times on the same
 # QUESTION 5
 ###########################################################
 
-This one has a linear complexity, O(N) in computation and O(M) in memory 
-(where N is the length of list and M is the element index to find from the end).
+This one has a linear complexity, O(N) in computation and O(1) in memory (where N is the length of list).
 
+The list is traversed twice - first to find the list's length, and then to get the M from back element.
 
-I am using an explicit deque data structure, as opposed to possibly writing a fancy recursive function,
-because running the latter with big M could just blow up the stack.
+Note: the initial implementation used an explicit deque data structure 
+(another thing that crossed my mind was possibly writing a fancy recursive function, but I decided against it, 
+since running the latter with big M could just blow up the stack).
+
+After given a hint, I changed it to the double-traverse algorithm with O(1) memory.
