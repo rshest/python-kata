@@ -43,6 +43,21 @@ It has complexity of O(E*logE), where E is the number of edges.
 # QUESTION 4
 ###########################################################
 
+The algorithm utilizes the fact that this is a Binary Search Tree, and thus all the children on the left
+from a root have a smaller value than the root, and all to the right have a bigger one.
+
+The computational time is O(N*logN), since in worst case we'd need to traverse all the nodes,
+and on each step we need to go through the half of the current subtree size-worth of node to 
+find where the actual child is (one thing to note here is the tree representation could be more efficient
+in this case, but we've got what we've got).
+
+The memory usage is O(N) - even though we don't create any extra data structures, we do use a recursive function,
+thus using the stack space. The function is `least_common_ancestor` tail-recursive, 
+however Python does not do tail recursion optimization, so there goes.
+
+
+Note: Below is the comment of the initial implementation (less efficient one), for posterity:
+
 The algorithm first traverses path to the root from the first node, remembering all the nodes on the way in a set.
 Then, it traverses the path to the root from the second node, looking for the first node to be in the set above.
 
