@@ -197,34 +197,30 @@ class Test3(unittest.TestCase):
 # QUESTION 4
 ###########################################################
 def question4(T, r, n1, n2):
-    def get_parent(n):
-        if n >= len(T):
-            return None
-        parents = [i for i, row in enumerate(T) 
-                     if row[n] == 1]
-        if len(parents) == 0:
-            return None
-        return parents[0]
-        
-    # first collect the nodes along the path from the first node to the root
-    path = set([n1])
-    node = n1
-    while node != r:
-        node = get_parent(node)
-        if node is None:
-            return None
-        path.add(node)
+    n = len(T)
+    if n1 >= n or n2 >= n or n1 < 0 or n2 < 0:
+        return None
 
-    # go up from the second node until meet a node from collected path
-    node = n2
-    while True:
-        if node in path:
-            return node
-        if node == r or node is None:
-            break
-        node = get_parent(node)
+    def get_child(root, right):
+        if right:
+            r = xrange(root + 1, n)  
+        else:
+            r = xrange(root - 1, -1, -1)  
+             
+        for i in r:
+            if T[root][i] == 1:
+                return i
+        return None
 
-    return None
+    def least_common_ancestor(root):
+        if root > n1 and root > n2:
+            return least_common_ancestor(get_child(root, False))
+        elif root < n1 and root < n2:
+            return least_common_ancestor(get_child(root, True))
+        else:
+            return root
+
+    return least_common_ancestor(r)
 
 
 # QUESTION 4 TESTS
@@ -233,6 +229,7 @@ class Test4(unittest.TestCase):
         #    3
         #   0 4
         #  1
+
         self.assertEquals(question4(
             [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
@@ -247,44 +244,58 @@ class Test4(unittest.TestCase):
              [0, 0, 1, 0, 0],
              [0, 0, 0, 0, 0]], 3, 0, 5), None)
 
-        #    3
+        #    4
         #   2
-        #  0 4
-        # 1
+        #  1 3
+        # 0
         self.assertEquals(question4(
-            [[0, 1, 0, 0, 0],
+            [[0, 0, 0, 0, 0],
+             [1, 0, 0, 0, 0],
+             [0, 1, 0, 1, 0],
              [0, 0, 0, 0, 0],
-             [1, 0, 0, 0, 1],
-             [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0]], 3, 1, 4), 2)
+             [0, 0, 1, 0, 0]], 4, 1, 4), 4)
 
         self.assertEquals(question4(
             [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
              [1, 0, 0, 0, 1],
              [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0]], 3, 2, 4), 2)
+             [0, 0, 0, 0, 0]], 4, 2, 4), 4)
 
         self.assertEquals(question4(
             [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
              [1, 0, 0, 0, 1],
-             [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0]], 3, 2, 2), 2)
+             [0, 0, 0, 0, 0],
+             [0, 0, 1, 0, 0]], 4, 0, 3), 2)
+
+        self.assertEquals(question4(
+            [[0, 1, 0, 0, 0],
+             [0, 0, 0, 0, 0],
+             [1, 0, 0, 0, 1],
+             [0, 0, 0, 0, 0],
+             [0, 0, 1, 0, 0]], 4, 1, 3), 2)             
+
+        self.assertEquals(question4(
+            [[0, 1, 0, 0, 0],
+             [0, 0, 0, 0, 0],
+             [1, 0, 0, 0, 1],
+             [0, 0, 0, 0, 0],
+             [0, 0, 1, 0, 0]], 4, 2, 2), 2)
         
         self.assertEquals(question4(
             [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
              [1, 0, 0, 0, 1],
-             [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0]], 3, 0, 0), 0)
+             [0, 0, 0, 0, 0],
+             [0, 0, 1, 0, 0]], 4, 0, 0), 0)
 
         self.assertEquals(question4(
             [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
              [1, 0, 0, 0, 1],
-             [0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 0]], 3, 0, 5), None)
+             [0, 0, 0, 0, 0],
+             [0, 0, 1, 0, 0]], 4, 0, 5), None)
 
 ###########################################################
 # QUESTION 5
