@@ -201,26 +201,23 @@ def question4(T, r, n1, n2):
     if n1 >= n or n2 >= n or n1 < 0 or n2 < 0:
         return None
 
-    def get_child(root, right):
-        if right:
-            r = xrange(root + 1, n)  
-        else:
-            r = xrange(root - 1, -1, -1)  
-             
-        for i in r:
-            if T[root][i] == 1:
-                return i
-        return None
-
-    def least_common_ancestor(root):
+    root = r
+    while True:
         if root > n1 and root > n2:
-            return least_common_ancestor(get_child(root, False))
+            # descend into the left  subtree
+            search_range = xrange(root - 1, -1, -1) 
         elif root < n1 and root < n2:
-            return least_common_ancestor(get_child(root, True))
+            # descend into the right subtree
+            search_range = xrange(root + 1, n)            
         else:
             return root
 
-    return least_common_ancestor(r)
+        for i in search_range:
+            if T[root][i] == 1:
+                root = i
+                break
+
+    return None
 
 
 # QUESTION 4 TESTS
@@ -229,7 +226,6 @@ class Test4(unittest.TestCase):
         #    3
         #   0 4
         #  1
-
         self.assertEquals(question4(
             [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
@@ -261,7 +257,7 @@ class Test4(unittest.TestCase):
              [1, 0, 0, 0, 1],
              [0, 0, 1, 0, 0],
              [0, 0, 0, 0, 0]], 4, 2, 4), 4)
-
+            
         self.assertEquals(question4(
             [[0, 1, 0, 0, 0],
              [0, 0, 0, 0, 0],
