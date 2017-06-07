@@ -51,12 +51,18 @@ and on each step we need to go through the half of the current subtree size-wort
 find where the actual child is (one thing to note here is the tree representation could be more efficient
 in this case, but we've got what we've got).
 
-The memory usage is O(N) - even though we don't create any extra data structures, we do use a recursive function,
-thus using the stack space. The function is `least_common_ancestor` tail-recursive, 
-however Python does not do tail recursion optimization, so there goes.
+The memory usage is O(1), because we don't create any extra data structures.
+
+Note that I deliberately avoid using a recursion here, since that would mean using the stack space and 
+ending up with the O(N) worst case memory complexity anyway.
+
+The function itself would be tail-recursive, of course, however Python does not do tail recursion optimization
+right off the bat, so there goes.
 
 
-Note: Below is the comment of the initial implementation (less efficient one), for posterity:
+*******
+Below comes the comment of the initial implementation (less efficient one, 
+not taking BST property into account), for posterity:
 
 The algorithm first traverses path to the root from the first node, remembering all the nodes on the way in a set.
 Then, it traverses the path to the root from the second node, looking for the first node to be in the set above.
